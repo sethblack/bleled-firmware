@@ -1,0 +1,3 @@
+[submodule "nrf51-pwm-library"]
+	path = nrf51-pwm-library
+	url = https://github.com/NordicSemiconductor/nrf51-pwm-library
