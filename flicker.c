@@ -105,8 +105,8 @@ void generate_flicker(void)
     uint8_t end_val = 236;
     uint32_t center = flicker_steps / 2;
 
-    uint8_t up_steps = (MAX(begin_val, middle_val) - MIN(begin_val, middle_val)) / center;
-    uint8_t down_steps =  (MAX(middle_val, end_val) - MIN(middle_val, end_val)) / center;
+    uint8_t up_steps = 0;
+    uint8_t down_steps =  0;
 
     uint32_t new_val = 0xff;
 
@@ -117,11 +117,11 @@ void generate_flicker(void)
     {
         if (i <= center)
         {
-            new_val = begin_val - (i * up_steps);
+            new_val = begin_val - (i * (MAX(begin_val, middle_val) - MIN(begin_val, middle_val)) / center );
         }
         else
         {
-            new_val = middle_val + (i * down_steps);
+            new_val = middle_val + ((i - center) * (MAX(middle_val, end_val) - MIN(middle_val, end_val)) / center);
         }
 
         if (new_val < 100)
