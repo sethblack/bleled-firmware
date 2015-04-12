@@ -1,3 +1,6 @@
+#include <stdint.h>
+#include <stdbool.h>
+
 #include "nrf_delay.h"
 #include "nrf_pwm.h"
 
