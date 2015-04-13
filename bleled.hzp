@@ -18,7 +18,9 @@
       arm_target_loader_default_loader="Flash"
       c_additional_options="-fms-extensions"
       c_user_include_directories="$(TargetsDir)/nRF51/CMSIS;$(TargetsDir)/CMSIS_3/CMSIS/Include"
-      debug_entry_point_symbol=""
+      debug_additional_load_file=""
+      debug_additional_load_file_address=""
+      debug_additional_load_file_type="Detect"
       debug_register_definition_file="$(TargetsDir)/nRF51/nRF51_Peripherals.xml"
       linker_memory_map_file="$(TargetsDir)/nRF51/nRF51822_xxAA_MemoryMap.xml"
       linker_section_placement_file="$(StudioDir)/targets/Cortex_M/flash_placement.xml"
@@ -87,5 +89,6 @@
   <configuration
     Name="Common"
     c_preprocessor_definitions="STARTUP_FROM_RESET;__WEAK=__attribute__((weak));BLE_STACK_SUPPORT_REQD"
-    c_user_include_directories=".;$(nRF51_SDK_Dir)/components/drivers_nrf/hal;nrf51-pwm-library;$(nRF51_SDK_Dir)/components/softdevice/s110/headers;$(nRF51_SDK_Dir)/components/libraries/util;$(nRF51_SDK_Dir)/components/ble/ble_services/ble_dis;$(nRF51_SDK_Dir)/components/ble/ble_services;$(nRF51_SDK_Dir)/components/ble/common;$(nRF51_SDK_Dir)/components/ble/ble_dtm;$(nRF51_SDK_Dir)/components/libraries/timer;$(nRF51_SDK_Dir)/components/libraries/gpiote;$(nRF51_SDK_Dir)/components/libraries/scheduler;$(nRF51_SDK_Dir)/components/softdevice/common/softdevice_handler;$(nRF51_SDK_Dir)/components/drivers_nrf/spi_slave;$(nRF51_SDK_Dir)/components/drivers_nrf/twi_master;$(nRF51_SDK_Dir)/components/drivers_nrf/hal;$(nRF51_SDK_Dir)/examples/bsp;   " />
+    c_user_include_directories=".;$(nRF51_SDK_Dir)/components/drivers_nrf/hal;nrf51-pwm-library;$(nRF51_SDK_Dir)/components/softdevice/s110/headers;$(nRF51_SDK_Dir)/components/libraries/util;$(nRF51_SDK_Dir)/components/ble/ble_services/ble_dis;$(nRF51_SDK_Dir)/components/ble/ble_services;$(nRF51_SDK_Dir)/components/ble/common;$(nRF51_SDK_Dir)/components/ble/ble_dtm;$(nRF51_SDK_Dir)/components/libraries/timer;$(nRF51_SDK_Dir)/components/libraries/gpiote;$(nRF51_SDK_Dir)/components/libraries/scheduler;$(nRF51_SDK_Dir)/components/softdevice/common/softdevice_handler;$(nRF51_SDK_Dir)/components/drivers_nrf/spi_slave;$(nRF51_SDK_Dir)/components/drivers_nrf/twi_master;$(nRF51_SDK_Dir)/components/drivers_nrf/hal;$(nRF51_SDK_Dir)/examples/bsp;   "
+    linker_section_placement_macros="FLASH_START=0x18000;RAM_START=0x20002000" />
 </solution>
