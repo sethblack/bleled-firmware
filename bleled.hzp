@@ -22,11 +22,12 @@
       debug_additional_load_file=""
       debug_additional_load_file_address=""
       debug_additional_load_file_type="Detect"
+      debug_entry_point_symbol=""
       debug_register_definition_file="$(TargetsDir)/nRF51/nRF51_Peripherals.xml"
       linker_memory_map_file="$(TargetsDir)/nRF51/nRF51822_xxAA_MemoryMap.xml"
       linker_output_format="hex"
       linker_section_placement_file="$(StudioDir)/targets/Cortex_M/flash_placement.xml"
-      linker_section_placement_macros="FLASH_START=0x18000;RAM_START=0x20002000"
+      linker_section_placement_macros=""
       package_dependencies="nRF51"
       project_directory=""
       project_type="Executable"
@@ -80,7 +81,7 @@
       arm_target_loader_applicable_loaders="Flash"
       arm_target_loader_default_loader="Flash"
       debug_entry_point_symbol="nonexistent"
-      external_build_file_name="s110_softdevice.hex"
+      external_build_file_name="/Users/sethblack/Programming/Nordic/nRF51_SDK_8.0.0/components/softdevice/s110/hex/s110_softdevice.hex"
       linker_memory_map_file="$(TargetsDir)/nRF51/nRF51822_xxAA_MemoryMap.xml"
       linker_section_placement_file="$(StudioDir)/targets/Cortex_M/flash_placement.xml"
       project_directory=""
@@ -91,12 +92,12 @@
     <configuration
       Name="Flash"
       arm_target_flash_loader_file_path="$(TargetsDir)/nRF51/Release/Loader.elf"
-      arm_target_loader_can_erase_all="Yes"
+      arm_target_loader_can_erase_all="No"
       arm_target_loader_can_lock_all="No"
       arm_target_loader_can_lock_range="No"
       arm_target_loader_can_unlock_all="No"
       arm_target_loader_can_unlock_range="No"
-      target_loader_erase_all="Yes"
+      target_loader_erase_all="No"
       target_reset_script="FLASHReset()" />
     <folder Name="Source Files">
       <configuration Name="Common" filter="c;cpp;cxx;cc;h;s;asm;inc" />
