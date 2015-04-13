@@ -15,6 +15,7 @@
       arm_target_debug_interface_type="ADIv5"
       arm_target_interface_type="Default"
       arm_target_loader_applicable_loaders="Flash"
+      arm_target_loader_can_erase_all="No"
       arm_target_loader_default_loader="Flash"
       c_additional_options="-fms-extensions"
       c_user_include_directories="$(TargetsDir)/nRF51/CMSIS;$(TargetsDir)/CMSIS_3/CMSIS/Include"
@@ -23,12 +24,14 @@
       debug_additional_load_file_type="Detect"
       debug_register_definition_file="$(TargetsDir)/nRF51/nRF51_Peripherals.xml"
       linker_memory_map_file="$(TargetsDir)/nRF51/nRF51822_xxAA_MemoryMap.xml"
+      linker_output_format="hex"
       linker_section_placement_file="$(StudioDir)/targets/Cortex_M/flash_placement.xml"
-      linker_section_placement_macros=""
+      linker_section_placement_macros="FLASH_START=0x18000;RAM_START=0x20002000"
       package_dependencies="nRF51"
       project_directory=""
       project_type="Executable"
       property_groups_file_path="$(TargetsDir)/nRF51/propertyGroups.xml"
+      target_loader_erase_all="No"
       target_reset_script="Reset()"
       target_script_file="$(TargetsDir)/nRF51/nRF51_Target.js" />
     <configuration
@@ -63,6 +66,42 @@
       <file file_name="$(TargetsDir)/nRF51/nRF51_Startup.s" />
     </folder>
   </project>
+  <project Name="softdevice_download">
+    <configuration
+      Name="Common"
+      Placement="Flash_S110"
+      Target="nRF51822-QFAA"
+      arm_architecture="v6M"
+      arm_core_type="Cortex-M0"
+      arm_simulator_memory_simulation_filename="$(TargetsDir)/nRF51/nRF51SimulatorMemory.dll"
+      arm_simulator_memory_simulation_parameter="nRF51822;0x40000;0x4000"
+      arm_target_debug_interface_type="ADIv5"
+      arm_target_interface_type="Default"
+      arm_target_loader_applicable_loaders="Flash"
+      arm_target_loader_default_loader="Flash"
+      debug_entry_point_symbol="nonexistent"
+      external_build_file_name="s110_softdevice.hex"
+      linker_memory_map_file="$(TargetsDir)/nRF51/nRF51822_xxAA_MemoryMap.xml"
+      linker_section_placement_file="$(StudioDir)/targets/Cortex_M/flash_placement.xml"
+      project_directory=""
+      project_type="Externally Built Executable"
+      property_groups_file_path="$(TargetsDir)/nRF51/propertyGroups.xml"
+      target_reset_script="Reset()"
+      target_script_file="$(TargetsDir)/nRF51/nRF51_Target.js" />
+    <configuration
+      Name="Flash"
+      arm_target_flash_loader_file_path="$(TargetsDir)/nRF51/Release/Loader.elf"
+      arm_target_loader_can_erase_all="Yes"
+      arm_target_loader_can_lock_all="No"
+      arm_target_loader_can_lock_range="No"
+      arm_target_loader_can_unlock_all="No"
+      arm_target_loader_can_unlock_range="No"
+      target_loader_erase_all="Yes"
+      target_reset_script="FLASHReset()" />
+    <folder Name="Source Files">
+      <configuration Name="Common" filter="c;cpp;cxx;cc;h;s;asm;inc" />
+    </folder>
+  </project>
   <configuration Name="THUMB Debug" inherited_configurations="THUMB;Debug" />
   <configuration
     Name="THUMB"
@@ -88,7 +127,8 @@
     hidden="Yes" />
   <configuration
     Name="Common"
+    arm_core_type="Cortex-M0"
     c_preprocessor_definitions="STARTUP_FROM_RESET;__WEAK=__attribute__((weak));BLE_STACK_SUPPORT_REQD"
     c_user_include_directories=".;$(nRF51_SDK_Dir)/components/drivers_nrf/hal;nrf51-pwm-library;$(nRF51_SDK_Dir)/components/softdevice/s110/headers;$(nRF51_SDK_Dir)/components/libraries/util;$(nRF51_SDK_Dir)/components/ble/ble_services/ble_dis;$(nRF51_SDK_Dir)/components/ble/ble_services;$(nRF51_SDK_Dir)/components/ble/common;$(nRF51_SDK_Dir)/components/ble/ble_dtm;$(nRF51_SDK_Dir)/components/libraries/timer;$(nRF51_SDK_Dir)/components/libraries/gpiote;$(nRF51_SDK_Dir)/components/libraries/scheduler;$(nRF51_SDK_Dir)/components/softdevice/common/softdevice_handler;$(nRF51_SDK_Dir)/components/drivers_nrf/spi_slave;$(nRF51_SDK_Dir)/components/drivers_nrf/twi_master;$(nRF51_SDK_Dir)/components/drivers_nrf/hal;$(nRF51_SDK_Dir)/examples/bsp;   "
-    linker_section_placement_macros="FLASH_START=0x18000;RAM_START=0x20002000" />
+    linker_section_placement_macros="" />
 </solution>
