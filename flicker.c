@@ -101,9 +101,9 @@ bool should_start_flickering()
 void generate_flicker(void)
 {
     flicker_steps = flicker_rand() + 100;
-    uint8_t begin_val = 238; //(flicker_rand() % 156) + 100;
+    uint8_t begin_val = 238;
     uint8_t middle_val = flicker_rand() % 156 + 30;
-    uint8_t end_val = 242; //(flicker_rand() % 156) + 100;
+    uint8_t end_val = 242;
     uint32_t center = flicker_steps / 2;
 
     uint8_t up_steps = (MAX(begin_val, middle_val) - MIN(begin_val, middle_val)) / center;
