@@ -6,7 +6,9 @@
 
 #include "flicker.h"
 
-#define BLE_CANDLE_PIN_LED                    0
+#define BLE_CANDLE_PIN_LED                    1
+
+void bsp_indication_set(int x) {return;}
 
 void init_pwm(void)
 {
