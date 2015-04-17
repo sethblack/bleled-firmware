@@ -70,6 +70,10 @@ static uint8_t m_beacon_info[APP_BEACON_INFO_LENGTH] =                    /**< I
                          // this implementation. 
 };
 
+void app_error_handler(uint32_t error_code, uint32_t line_num, const uint8_t * p_file_name) {
+  return;
+}
+
 /**@brief Callback function for asserts in the SoftDevice.
  *
  * @details This function will be called in case of an assert in the SoftDevice.
