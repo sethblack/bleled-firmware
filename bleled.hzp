@@ -20,7 +20,7 @@
       c_additional_options="-fms-extensions"
       c_user_include_directories="$(TargetsDir)/nRF51/CMSIS;$(TargetsDir)/CMSIS_3/CMSIS/Include"
       debug_additional_load_file=""
-      debug_entry_point_symbol="notmain"
+      debug_entry_point_symbol=""
       debug_register_definition_file="$(TargetsDir)/nRF51/nRF51_Peripherals.xml"
       linker_memory_map_file="$(TargetsDir)/nRF51/nRF51822_xxAA_MemoryMap.xml"
       linker_output_format="hex"
@@ -45,7 +45,9 @@
     <folder Name="Source Files">
       <configuration Name="Common" filter="c;cpp;cxx;cc;h;s;asm;inc" />
       <file file_name="main.c" />
-      <file file_name="nrf51-pwm-library/nrf_pwm.c" />
+      <file file_name="nrf51-pwm-library/nrf_pwm.c">
+        <configuration Name="THUMB Debug" build_exclude_from_build="No" />
+      </file>
       <file file_name="flicker.c" />
       <file file_name="flicker.h" />
       <folder Name="nrf">
@@ -82,6 +84,7 @@
       external_build_file_name="$(nRF51_SDK_Dir)/components/softdevice/s110/hex/s110_softdevice.hex"
       linker_memory_map_file="$(TargetsDir)/nRF51/nRF51822_xxAA_MemoryMap.xml"
       linker_section_placement_file="$(StudioDir)/targets/Cortex_M/flash_placement.xml"
+      linker_section_placement_macros="FLASH_START=0x00016000;RAM_START=0x20002000"
       project_directory=""
       project_type="Externally Built Executable"
       property_groups_file_path="$(TargetsDir)/nRF51/propertyGroups.xml"

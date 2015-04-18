@@ -142,7 +142,7 @@ bool should_start_flickering()
 {
     if (next_flicker_start == 0)
     {
-        uint8_t random_no = flicker_rand() % 200;
+        uint8_t random_no = flicker_rand() % 50;
         uint8_t random_multiplier = flicker_rand() % 7;
         generate_flicker();
 
