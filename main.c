@@ -1,40 +1,50 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include "nrf_delay.h"
-#include "nrf_pwm.h"
+#include "app_error.h"
+#include "app_scheduler.h"
+#include "app_timer_appsh.h"
+#include "softdevice_handler.h"
 
-#include "flicker.h"
+#define APP_TIMER_PRESCALER               0
+#define APP_TIMER_MAX_TIMERS              10
+#define APP_TIMER_OP_QUEUE_SIZE           4
 
-#define BLE_CANDLE_PIN_LED                    1
+#define BATTERY_LEVEL_MEAS_INTERVAL      APP_TIMER_TICKS(10, APP_TIMER_PRESCALER)
 
-void bsp_indication_set(int x) {return;}
+#define SCHED_MAX_EVENT_DATA_SIZE         sizeof(app_timer_event_t)
+#define SCHED_QUEUE_SIZE                  10
 
-void init_pwm(void)
+static app_timer_id_t                     m_test_timer_id;
+static int                                x;
+
+static void test_timeout_handler(void * p_context)
 {
-    uint32_t counter = 0;
-    
-    nrf_pwm_config_t pwm_config = PWM_DEFAULT_CONFIG;
-    
-    pwm_config.mode             = PWM_MODE_LED_255;
-    pwm_config.num_channels     = 1;
-    pwm_config.gpio_num[0]      = BLE_CANDLE_PIN_LED;  
-    
-    nrf_pwm_init(&pwm_config);
-
-    NRF_RNG->TASKS_START = 1;
-
-    NRF_RNG->EVENTS_VALRDY = 0;
-    while (NRF_RNG->EVENTS_VALRDY == 0){}
+    ++x;
 }
 
 void main(void)
 {
-    init_pwm();
+    uint32_t err_code = 0;
+
+    SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_XTAL_20_PPM, NULL);
+
+    APP_TIMER_INIT(APP_TIMER_PRESCALER, APP_TIMER_MAX_TIMERS, APP_TIMER_OP_QUEUE_SIZE, false);
+
+    err_code = app_timer_create(&m_test_timer_id,
+                                APP_TIMER_MODE_REPEATED,
+                                test_timeout_handler);
+    APP_ERROR_CHECK(err_code);
+
+    APP_SCHED_INIT(SCHED_MAX_EVENT_DATA_SIZE, SCHED_QUEUE_SIZE);
+
+    err_code = app_timer_start(m_test_timer_id, BATTERY_LEVEL_MEAS_INTERVAL, NULL);
+    APP_ERROR_CHECK(err_code);
 
     while (true)
     {
-        nrf_pwm_set_value(0, cycle_flicker());
-        nrf_delay_us(2000);
+        app_sched_execute();
+        err_code = sd_app_evt_wait();
+        APP_ERROR_CHECK(err_code);
     }
 }
