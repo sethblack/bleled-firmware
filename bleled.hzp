@@ -45,9 +45,7 @@
     <folder Name="Source Files">
       <configuration Name="Common" filter="c;cpp;cxx;cc;h;s;asm;inc" />
       <file file_name="main.c" />
-      <file file_name="nrf51-pwm-library/nrf_pwm.c">
-        <configuration Name="THUMB Debug" build_exclude_from_build="Yes" />
-      </file>
+      <file file_name="nrf51-pwm-library/nrf_pwm.c" />
       <file file_name="flicker.c" />
       <file file_name="flicker.h" />
       <folder Name="nrf">
@@ -60,6 +58,8 @@
         <file file_name="../Nordic/nRF51_SDK_8.0.0/components/ble/common/ble_conn_params.c" />
         <file file_name="../Nordic/nRF51_SDK_8.0.0/components/libraries/timer/app_timer_appsh.c" />
         <file file_name="../Nordic/nRF51_SDK_8.0.0/components/libraries/util/app_util_platform.c" />
+        <file file_name="../Nordic/nRF51_SDK_8.0.0/components/ble/ble_services/ble_dis/ble_dis.c" />
+        <file file_name="../Nordic/nRF51_SDK_8.0.0/components/ble/common/ble_srv_common.c" />
       </folder>
     </folder>
     <folder Name="System Files">
