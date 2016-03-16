@@ -100,9 +100,9 @@ uint8_t* get_flicker_table(void)
 void generate_flicker(void)
 {
     flicker_steps = (flicker_rand() % 100) + 100;
-    uint8_t begin_val = 236;
-    uint8_t middle_val = (flicker_rand() % 80) + 120;
-    uint8_t end_val = 236;
+    uint8_t begin_val = 156;
+    uint8_t middle_val = (flicker_rand() % 80) + 30;
+    uint8_t end_val = 156;
     uint32_t center = flicker_steps / 2;
 
     uint8_t up_steps = 0;
@@ -131,7 +131,7 @@ void generate_flicker(void)
 
         if (new_val > 255)
         {
-            new_val = 255;
+            new_val = 156;
         }
 
         flicker_table[i] = (uint8_t)new_val;

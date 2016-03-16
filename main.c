@@ -23,7 +23,7 @@
 
 #define IS_SRVC_CHANGED_CHARACT_PRESENT 0                                           /**< Include or not the service_changed characteristic. if not enabled, the server's database cannot be changed for the lifetime of the device*/
 
-#define DEVICE_NAME                     "bleled"                                    /**< Name of device. Will be included in the advertising data. */
+#define DEVICE_NAME                     "bleled-seth"                                    /**< Name of device. Will be included in the advertising data. */
 
 #define APP_ADV_INTERVAL                160                                         /**< The advertising interval (in units of 0.625 ms. This value corresponds to 40 ms). */
 #define APP_ADV_TIMEOUT_IN_SECONDS      0                                           /**< The advertising timeout (in units of seconds). */
@@ -57,8 +57,11 @@ static uint16_t                         m_conn_handle = BLE_CONN_HANDLE_INVALID;
 #define SCHED_MAX_EVENT_DATA_SIZE       sizeof(app_timer_event_t)                   /**< Maximum size of scheduler events. Note that scheduler BLE stack events do not contain any data, as the events are being pulled from the stack in the event handler. */
 #define SCHED_QUEUE_SIZE                10                                          /**< Maximum number of events in the scheduler queue. */
 
+#define FLICKER_EVENT_INTERVAL          APP_TIMER_TICKS(10, APP_TIMER_PRESCALER)
 
-#define BLE_CANDLE_PIN_LED                    1
+static app_timer_id_t                   m_flicker_timer_id;
+
+#define BLE_CANDLE_PIN_LED              1
 
 /**@brief Function for the Timer initialization.
  * This function sets up software timers. The clock source for the timers
@@ -80,39 +83,39 @@ static void timers_init(void)
 static void gap_params_init(void)
 {
     uint32_t                err_code;
-	
-	// Declearing parameter structs. Try to go to the struct definitions to get
-	// more information about what parameters they contain
-    ble_gap_conn_params_t   gap_conn_params; 	// Struct to store GAP connection parameters like max min connection interval etc
-    ble_gap_conn_sec_mode_t sec_mode;			// Struct to store security parameters 
+        
+        // Declearing parameter structs. Try to go to the struct definitions to get
+        // more information about what parameters they contain
+    ble_gap_conn_params_t   gap_conn_params;    // Struct to store GAP connection parameters like max min connection interval etc
+    ble_gap_conn_sec_mode_t sec_mode;                    // Struct to store security parameters 
 
-	// A simple macro that sets the Security Mode and Level bits in sec_mode
-	// to require no protection (open link)
+        // A simple macro that sets the Security Mode and Level bits in sec_mode
+        // to require no protection (open link)
     BLE_GAP_CONN_SEC_MODE_SET_OPEN(&sec_mode);
 
-	// Store the device name and security mode in the SoftDevice. Our name is defined to "HelloWorld" in the beginning of this file
+        // Store the device name and security mode in the SoftDevice. Our name is defined to "HelloWorld" in the beginning of this file
     err_code = sd_ble_gap_device_name_set(&sec_mode,
                                           (const uint8_t *)DEVICE_NAME,
                                           strlen(DEVICE_NAME));
-	APP_ERROR_CHECK(err_code);// Check for errors
+        APP_ERROR_CHECK(err_code);// Check for errors
 
-	// Always initialize all fields in structs to zero or you might get unexpected behaviour
+        // Always initialize all fields in structs to zero or you might get unexpected behaviour
     memset(&gap_conn_params, 0, sizeof(gap_conn_params));
 
-	// Populate the GAP connection parameter struct
+        // Populate the GAP connection parameter struct
     gap_conn_params.min_conn_interval = MIN_CONN_INTERVAL;
     gap_conn_params.max_conn_interval = MAX_CONN_INTERVAL;
     gap_conn_params.slave_latency     = SLAVE_LATENCY;
     gap_conn_params.conn_sup_timeout  = CONN_SUP_TIMEOUT;
 
-	// Set GAP Peripheral Preferred Connection Parameters
+        // Set GAP Peripheral Preferred Connection Parameters
     // The device use these prefered values when negotiating connection terms with another device
     err_code = sd_ble_gap_ppcp_set(&gap_conn_params);
     APP_ERROR_CHECK(err_code);// Check for errors
-											
-	// Set appearence										  
-	sd_ble_gap_appearance_set(0);
-	APP_ERROR_CHECK(err_code);// Check for errors
+                                                                                        
+        // Set appearence                                                                                  
+        sd_ble_gap_appearance_set(0);
+        APP_ERROR_CHECK(err_code);// Check for errors
 }
 
 
@@ -126,7 +129,7 @@ static void advertising_init(void)
     uint32_t            err_code;
     ble_advdata_t       advdata;    // Struct containing advertising parameters
     uint8_t             flags       = BLE_GAP_ADV_FLAGS_LE_ONLY_GENERAL_DISC_MODE; // Defines how your device is seen (or not seen) by other devices
-	ble_uuid_t          adv_uuids[] = {{0x1234, BLE_UUID_TYPE_BLE}};    // Random example User Unique Identifier
+        ble_uuid_t          adv_uuids[] = {{0x1234, BLE_UUID_TYPE_BLE}};    // Random example User Unique Identifier
    
     // Populate the advertisement packet
     // Always initialize all fields in structs to zero or you might get unexpected behaviour
@@ -195,7 +198,7 @@ static void conn_params_init(void)
 {
     uint32_t               err_code;
     ble_conn_params_init_t cp_init;
-	// Always initialize all fields in structs to zero or you might get unexpected behaviour
+        // Always initialize all fields in structs to zero or you might get unexpected behaviour
     memset(&cp_init, 0, sizeof(cp_init));
 
     cp_init.p_conn_params                  = NULL;
@@ -209,7 +212,7 @@ static void conn_params_init(void)
 
     err_code = ble_conn_params_init(&cp_init);
     // Check for errors
-	APP_ERROR_CHECK(err_code);// Check for errors
+        APP_ERROR_CHECK(err_code);// Check for errors
 }
 
 
@@ -338,17 +341,17 @@ static void ble_stack_init(void)
     SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_4000MS_CALIBRATION, NULL);
 
     // Enable BLE stack 
-	// Declaration of a simple struct containing ble parameters
+        // Declaration of a simple struct containing ble parameters
     ble_enable_params_t ble_enable_params;
-	
-	// Always initialize all fields in structs to zero or you might get unexpected behaviour
+        
+        // Always initialize all fields in structs to zero or you might get unexpected behaviour
     memset(&ble_enable_params, 0, sizeof(ble_enable_params));
-	
-	// This parameter defines whether or not our device might reconfigure its services during its lifetime. 
-	// In our case we set the value to 0 meaning that no service or attributes will ever change.
+        
+        // This parameter defines whether or not our device might reconfigure its services during its lifetime. 
+        // In our case we set the value to 0 meaning that no service or attributes will ever change.
     ble_enable_params.gatts_enable_params.service_changed = IS_SRVC_CHANGED_CHARACT_PRESENT;
-	
-	// This call initializes the bluetooth stack, no other BLE related call can be called before this one has been executed.
+        
+        // This call initializes the bluetooth stack, no other BLE related call can be called before this one has been executed.
     err_code = sd_ble_enable(&ble_enable_params);
     APP_ERROR_CHECK(err_code);// Check for errors
     
@@ -376,12 +379,16 @@ static void power_manage(void)
     APP_ERROR_CHECK(err_code);// Check for errors
 }
 
-
 void bsp_indication_set(int x) {return;}
+
+void pwm_flicker_timeout() {
+    nrf_pwm_set_value(0, cycle_flicker());
+}
 
 void init_pwm(void)
 {
     uint32_t counter = 0;
+    uint32_t err_code = 0;
     
     nrf_pwm_config_t pwm_config = PWM_DEFAULT_CONFIG;
     
@@ -395,6 +402,16 @@ void init_pwm(void)
 
     NRF_RNG->EVENTS_VALRDY = 0;
     while (NRF_RNG->EVENTS_VALRDY == 0){}
+
+    APP_TIMER_INIT(APP_TIMER_PRESCALER, APP_TIMER_MAX_TIMERS, APP_TIMER_OP_QUEUE_SIZE, false);
+
+    err_code = app_timer_create(&m_flicker_timer_id, APP_TIMER_MODE_REPEATED, pwm_flicker_timeout);
+    APP_ERROR_CHECK(err_code);
+
+    APP_SCHED_INIT(SCHED_MAX_EVENT_DATA_SIZE, SCHED_QUEUE_SIZE);
+
+    err_code = app_timer_start(m_flicker_timer_id, FLICKER_EVENT_INTERVAL, NULL);
+    APP_ERROR_CHECK(err_code);
 }
 
 int main(void)
@@ -419,8 +436,6 @@ int main(void)
     {
         app_sched_execute();
         power_manage();
-        nrf_pwm_set_value(0, cycle_flicker());
-        nrf_delay_us(2000);
     }
     
 }
