@@ -20,6 +20,7 @@
 #include "softdevice_handler.h"
 
 #include "flicker.h"
+#include "flicker_2.h"
 
 #define IS_SRVC_CHANGED_CHARACT_PRESENT 0                                           /**< Include or not the service_changed characteristic. if not enabled, the server's database cannot be changed for the lifetime of the device*/
 
@@ -57,7 +58,7 @@ static uint16_t                         m_conn_handle = BLE_CONN_HANDLE_INVALID;
 #define SCHED_MAX_EVENT_DATA_SIZE       sizeof(app_timer_event_t)                   /**< Maximum size of scheduler events. Note that scheduler BLE stack events do not contain any data, as the events are being pulled from the stack in the event handler. */
 #define SCHED_QUEUE_SIZE                10                                          /**< Maximum number of events in the scheduler queue. */
 
-#define FLICKER_EVENT_INTERVAL          APP_TIMER_TICKS(10, APP_TIMER_PRESCALER)
+#define FLICKER_EVENT_INTERVAL          APP_TIMER_TICKS(5, APP_TIMER_PRESCALER)
 
 static app_timer_id_t                   m_flicker_timer_id;
 
@@ -382,7 +383,8 @@ static void power_manage(void)
 void bsp_indication_set(int x) {return;}
 
 void pwm_flicker_timeout() {
-    nrf_pwm_set_value(0, cycle_flicker());
+    uint8_t flicker_val = cycle_flicker_3();
+    nrf_pwm_set_value(0, flicker_val);
 }
 
 void init_pwm(void)
@@ -407,8 +409,6 @@ void init_pwm(void)
 
     err_code = app_timer_create(&m_flicker_timer_id, APP_TIMER_MODE_REPEATED, pwm_flicker_timeout);
     APP_ERROR_CHECK(err_code);
-
-    APP_SCHED_INIT(SCHED_MAX_EVENT_DATA_SIZE, SCHED_QUEUE_SIZE);
 
     err_code = app_timer_start(m_flicker_timer_id, FLICKER_EVENT_INTERVAL, NULL);
     APP_ERROR_CHECK(err_code);

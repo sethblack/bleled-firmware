@@ -19,7 +19,7 @@
       arm_target_loader_default_loader="Flash"
       c_additional_options="-fms-extensions"
       c_user_include_directories="$(TargetsDir)/nRF51/CMSIS;$(TargetsDir)/CMSIS_3/CMSIS/Include;$(nRF51_SDK_Dir)/components/libraries/util;$(nRF51_SDK_Dir)/components/ble/ble_services/ble_dis;$(nRF51_SDK_Dir)/components/ble/ble_services;$(nRF51_SDK_Dir)/components/ble/common;$(nRF51_SDK_Dir)/components/ble/ble_dtm;$(nRF51_SDK_Dir)/components/libraries/timer;$(nRF51_SDK_Dir)/components/libraries/gpiote;$(nRF51_SDK_Dir)/components/libraries/scheduler;$(nRF51_SDK_Dir)/components/softdevice/common/softdevice_handler;$(nRF51_SDK_Dir)/components/drivers_nrf/spi_slave;$(nRF51_SDK_Dir)/components/drivers_nrf/twi_master;$(nRF51_SDK_Dir)/components/drivers_nrf/hal;$(nRF51_SDK_Dir)/components/softdevice/s110/headers\;"
-      debug_additional_load_file="$(nRF51_SDK_Dir)/components/softdevice/s110/hex/s110_softdevice.hex"
+      debug_additional_load_file="nRF51_SDK_8.0.0_5fc2c3a/components/softdevice/s110/hex/s110_softdevice.hex"
       debug_entry_point_symbol="notmain"
       debug_register_definition_file="$(TargetsDir)/nRF51/nRF51_Peripherals.xml"
       linker_memory_map_file="$(TargetsDir)/nRF51/nRF51822_xxAA_MemoryMap.xml"
@@ -59,6 +59,12 @@
         <file file_name="nRF51_SDK_8.0.0_5fc2c3a/components/ble/common/ble_advdata.c" />
         <file file_name="nRF51_SDK_8.0.0_5fc2c3a/components/ble/common/ble_conn_params.c" />
       </folder>
+      <file file_name="flicker_2.c" />
+      <file file_name="flicker_2.h" />
+      <file file_name="flicker_3.h" />
+      <file file_name="xorshift128.h" />
+      <file file_name="flicker_3.c" />
+      <file file_name="xorshift128.c" />
     </folder>
     <folder Name="System Files">
       <file file_name="$(StudioDir)/source/thumb_crt0.s" />
