@@ -1,7 +1,10 @@
 #include "flicker_3.h"
 #include "xorshift128.h"
+#include <cross_studio_io.h>
 
 uint32_t CYCLE_NO = 0xffffffff;
+uint8_t FLICKER_BRIGHTNESS = 0xff;
+uint8_t FLICKER_SPEED = 0xff;
 
 static uint8_t flicker3_table[] = {
     0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
@@ -60,6 +63,8 @@ static uint8_t flicker3_table[] = {
 };
 
 uint8_t cycle_flicker_3(void) {
+    //float b_mul = (float)(FLICKER_BRIGHTNESS) / 255;
+
     if (CYCLE_NO > 384) {
         CYCLE_NO = 0;
 
@@ -68,7 +73,7 @@ uint8_t cycle_flicker_3(void) {
         }
 
         uint32_t FLICKER_START = (xorshift128() % 128); // random.randint(128, 256)
-        uint32_t FLICKER_BOTTOM = (xorshift128() % 100) + 128; // random.randint(25, 200)
+        uint32_t FLICKER_BOTTOM = ((xorshift128() % 100) + 128); // random.randint(25, 200)
         uint32_t FLICKER_DURATION = (xorshift128() % 168) + 32; //random.randint(32, 256)
         float FLICKER_SLOPE = (float)(255 - FLICKER_BOTTOM) / (float)(FLICKER_DURATION / 2);
         uint32_t half_flicker_duration = FLICKER_DURATION / 2;
@@ -88,5 +93,5 @@ uint8_t cycle_flicker_3(void) {
         }
     }
 
-    return flicker3_table[CYCLE_NO++];
+    return flicker3_table[CYCLE_NO++] * ((float)(FLICKER_BRIGHTNESS) / 255);
 }
