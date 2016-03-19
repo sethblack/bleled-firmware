@@ -24,7 +24,7 @@ uint8_t cycle_flicker_3(uint8_t max_brightness) {
         cycle_no = 0;
     }
 
-    uint8_t flicker_val;
+    uint8_t flicker_val = 255;
 
     if (cycle_no < flicker_start || cycle_no >= (flicker_duration + flicker_start)) {
         flicker_val = 255;
@@ -42,9 +42,10 @@ uint8_t cycle_flicker_3(uint8_t max_brightness) {
         flicker_val = 60;
     }
 
-    /*debug_printf("start: %d, bottom: %d, duration: %d, slope: %f, cycle: %d, remaining: %d\n",
+    /*debug_printf("start: %d, bottom: %d, duration: %d, slope: %f,\
+        cycle: %d, remaining: %d, val: %d\n",
         flicker_start, flicker_bottom, flicker_duration, flicker_slope,
-        cycle_no, cycles_remaining);*/
+        cycle_no, cycles_remaining, flicker_val);*/
 
     ++cycle_no;
 

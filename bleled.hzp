@@ -17,7 +17,7 @@
       arm_target_loader_applicable_loaders="Flash"
       arm_target_loader_can_erase_all="Yes"
       arm_target_loader_default_loader="Flash"
-      c_additional_options="-fms-extensions"
+      c_additional_options="-fms-extensions" c_preprocessor_definitions=""
       c_user_include_directories="$(TargetsDir)/nRF51/CMSIS;$(TargetsDir)/CMSIS_3/CMSIS/Include;$(nRF51_SDK_Dir)/components/libraries/util;$(nRF51_SDK_Dir)/components/libraries/trace;$(nRF51_SDK_Dir)/components/ble/ble_services/ble_dis;$(nRF51_SDK_Dir)/components/ble/ble_services;$(nRF51_SDK_Dir)/components/ble/ble_advertising;$(nRF51_SDK_Dir)/components/ble/common;$(nRF51_SDK_Dir)/components/ble/ble_dtm;$(nRF51_SDK_Dir)/components/libraries/timer;$(nRF51_SDK_Dir)/components/libraries/gpiote;$(nRF51_SDK_Dir)/components/libraries/scheduler;$(nRF51_SDK_Dir)/components/softdevice/common/softdevice_handler;$(nRF51_SDK_Dir)/components/drivers_nrf/spi_slave;$(nRF51_SDK_Dir)/components/drivers_nrf/twi_master;$(nRF51_SDK_Dir)/components/drivers_nrf/pstorage;$(nRF51_SDK_Dir)/components/drivers_nrf/pstorage/config;$(nRF51_SDK_Dir)/components/drivers_nrf/hal;$(nRF51_SDK_Dir)/components/softdevice/s110/headers\;"
       debug_additional_load_file="/Users/sethblack/Programming/bleled/nRF51_SDK_8.0.0_5fc2c3a/components/softdevice/s110/hex/s110_softdevice.hex"
       debug_entry_point_symbol="notmain"
