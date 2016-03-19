@@ -63,7 +63,9 @@ static uint8_t flicker3_table[] = {
 };
 
 uint8_t cycle_flicker_3(void) {
-    //float b_mul = (float)(FLICKER_BRIGHTNESS) / 255;
+    if (FLICKER_BRIGHTNESS == 0) {
+        return 0;
+    }
 
     if (CYCLE_NO > 384) {
         CYCLE_NO = 0;
@@ -93,5 +95,11 @@ uint8_t cycle_flicker_3(void) {
         }
     }
 
-    return flicker3_table[CYCLE_NO++] * ((float)(FLICKER_BRIGHTNESS) / 255);
+    uint8_t flicker_val = (uint8_t)(flicker3_table[CYCLE_NO++] * ((float)(FLICKER_BRIGHTNESS) / 255));
+
+    if (flicker_val < 48) {
+        flicker_val = 48;
+    }
+
+    return flicker_val;
 }

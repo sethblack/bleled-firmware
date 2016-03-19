@@ -61,7 +61,7 @@ static ble_candle_t                     m_candle;
 #define SCHED_MAX_EVENT_DATA_SIZE       sizeof(app_timer_event_t)                   /**< Maximum size of scheduler events. Note that scheduler BLE stack events do not contain any data, as the events are being pulled from the stack in the event handler. */
 #define SCHED_QUEUE_SIZE                10                                          /**< Maximum number of events in the scheduler queue. */
 
-#define FLICKER_EVENT_INTERVAL          APP_TIMER_TICKS(5, APP_TIMER_PRESCALER)
+#define FLICKER_EVENT_INTERVAL          APP_TIMER_TICKS(10, APP_TIMER_PRESCALER)
 
 static app_timer_id_t                   m_flicker_timer_id;
 
@@ -118,8 +118,6 @@ static void advertising_init(void) {
 }
 
 static void candle_write_handler(ble_candle_t * p_lbs, uint8_t brightness, uint8_t speed) {
-    debug_printf("rx brightness: %d\nspeed: %d\n", brightness, speed);
-    debug_printf("previous brightness: %d\n", FLICKER_BRIGHTNESS);
     FLICKER_BRIGHTNESS = brightness;
 }
 
@@ -205,8 +203,6 @@ static void on_ble_evt(ble_evt_t * p_ble_evt) {
     static ble_gap_sign_info_t       m_sign_key;
     static ble_gap_sec_keyset_t      m_keys = {.keys_periph = {&m_enc_key, &m_id_key, &m_sign_key}};
 
-    debug_printf("got evt\n");
-
     switch (p_ble_evt->header.evt_id)
     {
         case BLE_GAP_EVT_CONNECTED:
@@ -261,7 +257,6 @@ static void on_ble_evt(ble_evt_t * p_ble_evt) {
             break;
 
         case BLE_GATTS_EVT_WRITE:
-            debug_printf("got write\n");
             break;
 
         default:
@@ -346,8 +341,6 @@ void init_pwm(void) {
 }
 
 int main(void) {
-    debug_printf("started\n");
-
     timers_init();
     ble_stack_init();
     scheduler_init();
