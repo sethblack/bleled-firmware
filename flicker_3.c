@@ -17,10 +17,8 @@ uint8_t cycle_flicker_3(uint8_t max_brightness) {
 
     if (cycles_remaining == 0) {
         flicker_start = (xorshift128() % 128);
-        //flicker_bottom = ((xorshift128() % 100) + 128);
-        //flicker_duration = (xorshift128() % 168) + 32;
-        flicker_bottom = 128;
-        flicker_duration = 128;
+        flicker_bottom = ((xorshift128() % 100) + 128);
+        flicker_duration = (xorshift128() % 168) + 32;
         flicker_slope = (float)(255 - flicker_bottom) / (float)(flicker_duration / 2);
         half_flicker_duration = flicker_duration / 2;
         cycle_no = 0;
