@@ -330,8 +330,6 @@ void init_pwm(void) {
     NRF_RNG->EVENTS_VALRDY = 0;
     while (NRF_RNG->EVENTS_VALRDY == 0){}
 
-    APP_TIMER_INIT(APP_TIMER_PRESCALER, APP_TIMER_MAX_TIMERS, APP_TIMER_OP_QUEUE_SIZE, false);
-
     err_code = app_timer_create(&m_flicker_timer_id, APP_TIMER_MODE_REPEATED, pwm_flicker_timeout);
     APP_ERROR_CHECK(err_code);
 
