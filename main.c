@@ -249,8 +249,7 @@ static void on_ble_evt(ble_evt_t * p_ble_evt) {
             break;
 
         case BLE_GAP_EVT_TIMEOUT:
-            if (p_ble_evt->evt.gap_evt.params.timeout.src == BLE_GAP_TIMEOUT_SRC_ADVERTISING)
-            {
+            if (p_ble_evt->evt.gap_evt.params.timeout.src == BLE_GAP_TIMEOUT_SRC_ADVERTISING) {
                 err_code = sd_power_system_off();
                 APP_ERROR_CHECK(err_code);
             }
@@ -310,7 +309,7 @@ void bsp_indication_set(int x) {
 }
 
 void pwm_flicker_timeout() {
-    uint8_t flicker_val = cycle_flicker_3();
+    uint8_t flicker_val = cycle_flicker_3(FLICKER_BRIGHTNESS);
     nrf_pwm_set_value(0, flicker_val);
 }
 
