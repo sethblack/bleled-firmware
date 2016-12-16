@@ -309,8 +309,8 @@ void bsp_indication_set(int x) {
 }
 
 void pwm_flicker_timeout() {
-    uint8_t flicker_val = cycle_flicker_3(FLICKER_BRIGHTNESS);
-    nrf_pwm_set_value(0, flicker_val);
+    // uint8_t flicker_val = cycle_flicker_3(FLICKER_BRIGHTNESS);
+    nrf_pwm_set_value(0, 255);
 }
 
 void init_pwm(void) {
